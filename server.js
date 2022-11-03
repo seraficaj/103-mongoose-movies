@@ -40,7 +40,6 @@ app.use(passport.session());
 // middleware to send req.user into any view
 app.use(function (req, res, next) {
   res.locals.user = req.user;
-  console.log(res.locals.user);
   next();
 });
 
