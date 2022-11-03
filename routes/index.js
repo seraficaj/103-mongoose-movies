@@ -26,8 +26,12 @@ router.get(
 
 // Oauth Logout Route
 router.get("/logout", function (req, res) {
-  req.logout();
-  res.redirect("/movies");
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/movies");
+  });
 });
 
 module.exports = router;
