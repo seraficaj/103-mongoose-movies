@@ -5,4 +5,7 @@
   - .env file will contain URI to hosted mongoDB database
   ```
   DATABASE_URL=YOUR ATLAS CONNECTION STRING HERE
+  GOOGLE_CLIENT_ID=
+  GOOGLE_SECRET=
+  GOOGLE_CALLBACK=
   ```
