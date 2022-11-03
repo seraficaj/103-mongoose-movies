@@ -2,6 +2,7 @@ const Movie = require("../models/movie");
 
 module.exports = {
   create,
+  delete: deleteReview,
 };
 
 function create(req, res) {
@@ -19,5 +20,28 @@ function create(req, res) {
       if (err) console.log(err);
       res.redirect(`/movies/${movie._id}`);
     });
+  });
+}
+
+function deleteReview(req, res, next) {
+  // using "dot" syntax to query on the property of a subdoc
+  Movie.findOne({
+    "reviews._id": req.params.id,
+    "reviews.user": req.user._id,
+  }).then(function (movie) {
+    // if no movie, go back to all movies
+    if (!movie) return res.redirect("/movies");
+    // remove the review using the remove method available on Mongoose Arrays
+    movie.reviews.remove(req.params.id);
+    // save the updated Movie document
+    movie
+      .save()
+      .then(function () {
+        // redirect back to show view
+        res.redirect(`/movies/${movie._id}`);
+      })
+      .catch(function (err) {
+        return next(err);
+      });
   });
 }
